@@ -14,8 +14,7 @@
 
 cat /share/dream_datasets.txt | while read input_fp output_fp; do
     echo -e "Analyzing input file $input_fp\n"
-    metaphlan2.py --input_type fastq $input_fp $output_fp
-    break
     echo -e "Writing output to $output_fp\n"
+    metaphlan2.py --input_type fastq $input_fp $output_fp
     echo -e "Done\n\n"
 done
