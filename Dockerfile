@@ -1,14 +1,11 @@
-FROM quay.io/biocontainers/metaphlan2:2.7.5--py27_1
-MAINTAINER sminot@fredhutch.org
+FROM quay.io/biocontainers/metaphlan:4.0.4--pyhca03a8a_0
+LABEL Author=sminot@fredhutch.org
 
-# Use /share as the working directory that can be mounted
-RUN mkdir /share
-WORKDIR /share
-
-# Analyze some test data
-RUN mkdir /usr/temp
-ADD temp/input.fastq /usr/temp/
-RUN metaphlan2.py --input_type fastq /usr/temp/input.fastq /usr/temp/output.mpa
-
-# Add the analyze_dream_datasets.sh script to the PATH
-ADD analyze_dream_datasets.sh /usr/local/bin/
+# Install MUSCLEv3
+RUN mkdir /usr/local/muscle && \
+    cd /usr/local/muscle && \
+    wget https://drive5.com/muscle/downloads3.8.31/muscle3.8.31_i86linux64.tar.gz && \
+    tar xzvf muscle3.8.31_i86linux64.tar.gz && \
+    rm /usr/local/bin/muscle && \
+    ln -s /usr/local/muscle/muscle3.8.31_i86linux64 /usr/local/bin/muscle && \
+    muscle -version
